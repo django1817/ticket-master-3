@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-
+import TicketTable from './TicketTable'
 class App extends Component {
 
   constructor(){
@@ -29,38 +29,13 @@ class App extends Component {
       <div>
 
         <h1>Ticket Master</h1>
-        <h2>Listing Tickets-{this.state.tickets.length}</h2>
-        <table border="1">
-        <thead>
-          <tr>
-            <th> Code </th>
-            <th> Name </th>
-            <th> Department </th>
-            <th> Priority </th>
-            <th> Message </th>
-            <th> Status </th>
-          </tr>
+        <h2>Listing Tickets-{this.state.tickets.length}</h2>        
 
-        </thead>
+        <TicketTable  tickets={this.state.tickets}  ticketStatus="All"/>
 
-        <tbody>
-        {
-          this.state.tickets.map( ticket => {
-            return (
-              <tr key ={ticket.ticket_code}>
-                <td>{ticket.ticket_code}</td>
-                <td>{ticket.name}</td>
-                <td>{ticket.department}</td>
-                <td>{ticket.priority}</td>
-                <td>{ticket.message}</td>
-                <td>{ticket.status}</td>
-              </tr>
+        <TicketTable  tickets={this.state.tickets.filter(ticket=>ticket.status==='open')} ticketStatus="Open"/>
 
-            )
-          })
-        }
-        </tbody>
-        </table>
+        <TicketTable  tickets={this.state.tickets.filter(ticket=>ticket.status==='completed')} ticketStatus="Completed"/>
 
       </div>
       
