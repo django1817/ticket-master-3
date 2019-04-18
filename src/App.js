@@ -12,6 +12,13 @@ class App extends Component {
     }
   }
 
+  handleSubmit = (ticket) => {
+  //  console.log('app component',ticket)
+      this.setState( (prevState) =>( {
+        tickets: prevState.tickets.concat(ticket)
+      }))
+  }
+
   //will be called after the comp is loaded on the browser
   componentDidMount(){
 
@@ -33,9 +40,11 @@ class App extends Component {
         <h1>Ticket Master</h1>
         <h2>Listing Tickets-{this.state.tickets.length}</h2>        
 
+
+
         <TicketTable  tickets={this.state.tickets}  ticketStatus="All"/>
 
-        <TicketForm />
+        <TicketForm  handleSubmit={this.handleSubmit}/> 
 
         <TicketTable  tickets={this.state.tickets.filter(ticket=>ticket.status==='open')} ticketStatus="Open"/>
 

@@ -10,32 +10,43 @@ class TicketForm extends React.Component{
             name:'',
             department:'',
             priority:'',
-            message:''
+            message:'',
+            notice:''
         }
 
     }
 
-        handleNameChange = (e) =>{
-            //console.log(e.target.value)
-            const name=e.target.value
-            this.setState( () =>( {name} ) )    // name : name es6 concise property
-        }
+        // handleNameChange = (e) =>{
+        //     //console.log(e.target.value)
+        //     const name=e.target.value
+        //     this.setState( () =>( {name} ) )    // name : name es6 concise property
+        // }
 
-        handleDepartmentChange = (e) =>{
-            const department=e.target.value
-            this.setState( () => ( {department} ))
+        // handleDepartmentChange = (e) =>{
+        //     const department=e.target.value
+        //     this.setState( () => ( {department} ))
 
-        }
+        // }
 
-        handlePriorityChange = (e) =>{
-            const priority =e.target.value
-            this.setState( () =>( {priority} ))
+        // handlePriorityChange = (e) =>{
+        //     const priority =e.target.value
+        //     this.setState( () =>( {priority} ))
 
-        }
+        // }
 
-        handleMessageChange = (e) =>{
-            const message=e.target.value
-            this.setState( () =>( {message} ))
+        // handleMessageChange = (e) =>{
+        //     const message=e.target.value
+        //     this.setState( () =>( {message} ))
+        // }
+
+        handleChange=(e)=>{
+          //  console.log('name',e.target.name)
+          //  console.log('value',e.target.value)
+            e.persist()
+          this.setState(() => ({
+              [e.target.name] : e.target.value   // key is in a variable, so [] bracket
+          }))
+
         }
 
         handleSubmit = (e) =>{
@@ -49,7 +60,21 @@ class TicketForm extends React.Component{
 
             axios.post(`http://dct-api-data.herokuapp.com/tickets?api_key=3c028ce53a4b1f80`,formdata )
             .then(response => {
-                console.log(response.data)
+                //console.log(response.data)
+
+                this.props.handleSubmit(response.data)
+
+                //clear the form by resetting the state value
+                this.setState( () => ({
+                name:'',department:'',priority:'',message:'',notice:'Successfully created ticket'
+                }))
+
+                setTimeout( () =>{
+                    this.setState( () => ({notice: '' }) )
+                },2000)
+
+                
+
             })
             .catch(err => {
                 console.log(err)
@@ -66,17 +91,18 @@ class TicketForm extends React.Component{
 
             return(
                 <div>
+                    {this.state.notice && <p> {this.state.notice} </p>}
                 <h2> Add Ticket</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                     Name <br/>
-                    <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
+                    <input type="text" value={this.state.name} onChange={this.handleChange} name="name"/>
 
                     </label> <br/>    
 
                     <label>
                         Department <br/>
-                        <select value={this.state.department} onChange={this.handleDepartmentChange}>
+                        <select value={this.state.department} onChange={this.handleChange} name="department">
                             <option value="">Select</option>
                             <option value="technical">Technical</option>
                             <option value="sales">Sales</option>
@@ -86,7 +112,7 @@ class TicketForm extends React.Component{
 
                     <label>
                         Priority <br/>
-                        <select value={this.state.priority} onChange={this.handlePriorityChange}>
+                        <select value={this.state.priority} onChange={this.handleChange} name="priority">
                             <option value="">Select</option>
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
@@ -96,7 +122,7 @@ class TicketForm extends React.Component{
 
                     <label>
                         Message <br/>
-                        <textarea value={this.state.message} onChange={this.handleMessageChange}>
+                        <textarea value={this.state.message} onChange={this.handleChange} name="message">
 
                         </textarea>
 
