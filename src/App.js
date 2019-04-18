@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import TicketTable from './TicketTable'
+import TicketForm from './TicketForm'
+
 class App extends Component {
 
   constructor(){
@@ -32,6 +34,8 @@ class App extends Component {
         <h2>Listing Tickets-{this.state.tickets.length}</h2>        
 
         <TicketTable  tickets={this.state.tickets}  ticketStatus="All"/>
+
+        <TicketForm />
 
         <TicketTable  tickets={this.state.tickets.filter(ticket=>ticket.status==='open')} ticketStatus="Open"/>
 
