@@ -16,6 +16,7 @@ const TicketTable =(props) => {
             <th> Priority </th>
             <th> Message </th>
             <th> Status </th>
+            <th> Actions </th>
           </tr>
 
         </thead>
@@ -31,6 +32,15 @@ const TicketTable =(props) => {
                 <td>{ticket.priority}</td>
                 <td>{ticket.message}</td>
                 <td>{ticket.status}</td>
+                <td><button onClick={ () => {
+                   props.handleRemove(ticket) 
+                   const confirmDelete=window.confirm("Are you sure?")
+                   if(confirmDelete){
+                       
+                   }
+                }}>
+                    remove
+                    </button> </td>
               </tr>
 
             )
